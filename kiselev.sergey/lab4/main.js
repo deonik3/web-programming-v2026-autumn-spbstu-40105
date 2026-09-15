@@ -1,16 +1,21 @@
-import { ClothingItem } from './model.js';
+import {ClothingItem} from './model.js';
 
 const STORAGE_KEY = 'clothing-items';
 
 let items = [];
 
 function saveToStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items.map((item) => item.toJSON())));
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(items.map((item) => item.toJSON())),
+  );
 }
 
 function loadFromStorage() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return [];
+  if (!raw) {
+    return [];
+  }
   try {
     const data = JSON.parse(raw);
     return data.map((d) => new ClothingItem(d.id, d.name, d.size, d.colors));
@@ -50,7 +55,7 @@ function renderList() {
         <dt>Количество цветов</dt><dd>${item.colorsCount}</dd>
       </dl>
       <button
-        class="btn-delete"
+        class="card-delete"
         data-testid="delete-entity"
         data-id="${item.id}"
         type="button"
@@ -83,7 +88,9 @@ async function handleAddItem(event) {
   const name = data.get('name').trim();
   const size = data.get('size');
 
-  if (!name || !size) return;
+  if (!name || !size) {
+    return;
+  }
   if (findById(id)) {
     alert(`Товар с ID ${id} уже существует`);
     return;
@@ -155,21 +162,27 @@ function init() {
     colorForm.reset();
   });
 
-  colorForm.querySelector('[data-action="remove"]').addEventListener('click', async () => {
-    const data = new FormData(colorForm);
-    const itemId = Number(data.get('itemId'));
-    const color = data.get('color');
-    if (!color.trim()) return;
-    await handleRemoveColor(itemId, color);
-    colorForm.reset();
-  });
+  colorForm
+    .querySelector('[data-action="remove"]')
+    .addEventListener('click', async () => {
+      const data = new FormData(colorForm);
+      const itemId = Number(data.get('itemId'));
+      const color = data.get('color');
+      if (!color.trim()) {
+        return;
+      }
+      await handleRemoveColor(itemId, color);
+      colorForm.reset();
+    });
 
-  document.querySelector('[data-testid="entity-list"]').addEventListener('click', (event) => {
-    const btn = event.target.closest('[data-testid="delete-entity"]');
-    if (btn) {
-      handleDeleteItem(btn.dataset.id);
-    }
-  });
+  document
+    .querySelector('[data-testid="entity-list"]')
+    .addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-testid="delete-entity"]');
+      if (btn) {
+        handleDeleteItem(btn.dataset.id);
+      }
+    });
 }
 
 init();
