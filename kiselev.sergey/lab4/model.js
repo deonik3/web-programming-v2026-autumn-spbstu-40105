@@ -1,65 +1,45 @@
 export class ClothingItem {
-  #id;
-  #name;
-  #size;
-  #colors;
-
   constructor(id, name, size, colors = []) {
-    this.#id = id;
-    this.#name = name;
-    this.#size = size;
-    this.#colors = [...colors];
-  }
-
-  get id() {
-    return this.#id;
-  }
-
-  get name() {
-    return this.#name;
-  }
-
-  get size() {
-    return this.#size;
-  }
-
-  get colors() {
-    return [...this.#colors];
+    this.id = id;
+    this.name = name;
+    this.size = size;
+    this.colors = [...colors];
   }
 
   get colorsCount() {
-    return this.#colors.length;
+    return this.colors.length;
   }
 
   addColor(color) {
-    if (!this.#colors.includes(color)) {
-      this.#colors.push(color);
+    if (!this.colors.includes(color)) {
+      this.colors.push(color);
     }
   }
 
   removeColor(color) {
-    this.#colors = this.#colors.filter((c) => c !== color);
+    this.colors = this.colors.filter((c) => c !== color);
   }
 
   toJSON() {
     return {
-      id: this.#id,
-      name: this.#name,
-      size: this.#size,
-      colors: this.#colors,
+      id: this.id,
+      name: this.name,
+      size: this.size,
+      colors: this.colors,
     };
   }
 }
 
 export function groupItemsBySize(items) {
-  return items.reduce((acc, item) => {
+  const map = new Map();
+  for (const item of items) {
     const key = item.size;
-    if (!acc[key]) {
-      acc[key] = [];
+    if (!map.has(key)) {
+      map.set(key, []);
     }
-    acc[key].push(item);
-    return acc;
-  }, {});
+    map.get(key).push(item);
+  }
+  return map;
 }
 
 export function getUniqueColors(items) {
@@ -72,14 +52,15 @@ export function findItemsByColor(items, color) {
 }
 
 export function groupItemsByColorCount(items) {
-  return items.reduce((acc, item) => {
+  const map = new Map();
+  for (const item of items) {
     const key = item.colorsCount;
-    if (!acc[key]) {
-      acc[key] = [];
+    if (!map.has(key)) {
+      map.set(key, []);
     }
-    acc[key].push(item);
-    return acc;
-  }, {});
+    map.get(key).push(item);
+  }
+  return map;
 }
 
 export function findItemsAboveColorCount(items, n) {
