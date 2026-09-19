@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 
 import Board from "./components/Board.jsx";
+import GameOverScreen from "./components/GameOverScreen.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import {chooseComputerMove} from "./ai.js";
 import {createEmptyBoard, findWinner, getCurrentPlayer, getEmptyCells} from "./game.js";
@@ -95,7 +96,11 @@ export default function App() {
         </button>
       </div>
 
-      <Board board={board} winningLine={winner?.line} onSelect={handleSelect} />
+      <div className="board-area">
+        <Board board={board} winningLine={winner?.line} onSelect={handleSelect} />
+
+        {isFinished && <GameOverScreen winner={winner} onRestart={handleRestart} />}
+      </div>
 
       <button
         type="button"
