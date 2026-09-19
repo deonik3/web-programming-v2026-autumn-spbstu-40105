@@ -1,8 +1,8 @@
 export default function GameOverScreen({winner, onRestart}) {
-  let title = "Ничья";
+  let title = 'Ничья';
 
   if (winner !== null) {
-    title = `Победили ${winner.mark === "X" ? "крестики" : "нолики"}`;
+    title = `Победили ${winner.mark === 'X' ? 'крестики' : 'нолики'}`;
   }
 
   return (

@@ -38,8 +38,8 @@ export function getEmptyCells(board) {
 }
 
 export function getCurrentPlayer(board) {
-  const crosses = board.filter((cell) => cell === "X").length;
-  const noughts = board.filter((cell) => cell === "O").length;
+  const crosses = board.filter((cell) => cell === 'X').length;
+  const noughts = board.filter((cell) => cell === 'O').length;
 
-  return crosses === noughts ? "X" : "O";
+  return crosses === noughts ? 'X' : 'O';
 }

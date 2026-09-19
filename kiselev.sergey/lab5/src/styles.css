@@ -2,7 +2,7 @@ body {
   margin: 0;
   background-color: #1e2b38;
   color: #f2f4f6;
-  font-family: "Trebuchet MS", system-ui, sans-serif;
+  font-family: 'Trebuchet MS', system-ui, sans-serif;
 }
 
 .app {
@@ -43,7 +43,7 @@ body {
   font-size: 15px;
 }
 
-.mode-button[aria-pressed="true"] {
+.mode-button[aria-pressed='true'] {
   border-color: #7fb5d5;
   color: #7fb5d5;
 }
@@ -92,7 +92,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background-color: rgb(30 43 56 / 92%);
+  background-color: rgb(30 43 56 / 0.92);
   gap: 14px;
   inset: 0;
   text-align: center;

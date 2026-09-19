@@ -1,4 +1,4 @@
-import {findWinner, getEmptyCells} from "./game.js";
+import {findWinner, getEmptyCells} from './game.js';
 
 function findFinishingMove(board, mark) {
   for (const index of getEmptyCells(board)) {
@@ -14,7 +14,7 @@ function findFinishingMove(board, mark) {
 }
 
 export function chooseComputerMove(board, mark) {
-  const opponent = mark === "X" ? "O" : "X";
+  const opponent = mark === 'X' ? 'O' : 'X';
 
   const winningMove = findFinishingMove(board, mark);
 
