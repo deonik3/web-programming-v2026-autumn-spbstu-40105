@@ -1,12 +1,12 @@
-import {WINNING_LINES, getEmptyCells} from "./game.js";
+import {findWinner, getEmptyCells} from "./game.js";
 
-function findLineMove(board, mark) {
-  for (const line of WINNING_LINES) {
-    const marks = line.filter((index) => board[index] === mark);
-    const empty = line.filter((index) => board[index] === null);
+function findFinishingMove(board, mark) {
+  for (const index of getEmptyCells(board)) {
+    const test = board.slice();
+    test[index] = mark;
 
-    if (marks.length === 2 && empty.length === 1) {
-      return empty[0];
+    if (findWinner(test) !== null) {
+      return index;
     }
   }
 
@@ -16,13 +16,52 @@ function findLineMove(board, mark) {
 export function chooseComputerMove(board, mark) {
   const opponent = mark === "X" ? "O" : "X";
 
-  const winningMove = findLineMove(board, mark);
+  const winningMove = findFinishingMove(board, mark);
 
   if (winningMove !== null) {
     return winningMove;
   }
 
-  const blockingMove = findLineMove(board, opponent);
+  const blockingMove = findFinishingMove(board, opponent);
+
+  if (blockingMove !== null) {
+    return blockingMove;
+  }
+
+  if (board[4] === null) {
+    return 4;
+  }
+
+  const empty = getEmptyCells(board);
+
+  return empty[Math.floor(Math.random() * empty.length)];
+}
+
+import {findWinner, getEmptyCells} from "./game.js";
+
+function findFinishingMove(board, mark) {
+  for (const index of getEmptyCells(board)) {
+    const test = board.slice();
+    test[index] = mark;
+
+    if (findWinner(test) !== null) {
+      return index;
+    }
+  }
+
+  return null;
+}
+
+export function chooseComputerMove(board, mark) {
+  const opponent = mark === "X" ? "O" : "X";
+
+  const winningMove = findFinishingMove(board, mark);
+
+  if (winningMove !== null) {
+    return winningMove;
+  }
+
+  const blockingMove = findFinishingMove(board, opponent);
 
   if (blockingMove !== null) {
     return blockingMove;

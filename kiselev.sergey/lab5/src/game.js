@@ -25,10 +25,6 @@ export function findWinner(board) {
   return null;
 }
 
-export function isBoardFull(board) {
-  return board.every((cell) => cell !== null);
-}
-
 export function getEmptyCells(board) {
   const cells = [];
 
@@ -39,4 +35,11 @@ export function getEmptyCells(board) {
   });
 
   return cells;
+}
+
+export function getCurrentPlayer(board) {
+  const crosses = board.filter((cell) => cell === "X").length;
+  const noughts = board.filter((cell) => cell === "O").length;
+
+  return crosses === noughts ? "X" : "O";
 }

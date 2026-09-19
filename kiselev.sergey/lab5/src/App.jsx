@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 
 import Board from "./components/Board.jsx";
+import SplashScreen from "./components/SplashScreen.jsx";
 import {chooseComputerMove} from "./ai.js";
-import {createEmptyBoard, findWinner, isBoardFull} from "./game.js";
+import {createEmptyBoard, findWinner, getCurrentPlayer, getEmptyCells} from "./game.js";
 
 const COMPUTER_MARK = "O";
 
@@ -10,11 +11,12 @@ const COMPUTER_DELAY = 500;
 
 export default function App() {
   const [board, setBoard] = useState(createEmptyBoard());
-  const [current, setCurrent] = useState("X");
   const [mode, setMode] = useState("computer");
+  const [splashVisible, setSplashVisible] = useState(true);
 
+  const current = getCurrentPlayer(board);
   const winner = findWinner(board);
-  const isDraw = winner === null && isBoardFull(board);
+  const isDraw = winner === null && getEmptyCells(board).length === 0;
   const isFinished = winner !== null || isDraw;
   const isComputerTurn = mode === "computer" && current === COMPUTER_MARK && !isFinished;
 
@@ -29,7 +31,6 @@ export default function App() {
       next[index] = COMPUTER_MARK;
 
       setBoard(next);
-      setCurrent("X");
     }, COMPUTER_DELAY);
 
     return () => clearTimeout(timer);
@@ -44,18 +45,15 @@ export default function App() {
     next[index] = current;
 
     setBoard(next);
-    setCurrent(current === "X" ? "O" : "X");
   }
 
   function handleRestart() {
     setBoard(createEmptyBoard());
-    setCurrent("X");
   }
 
   function handleModeChange(nextMode) {
     setMode(nextMode);
     setBoard(createEmptyBoard());
-    setCurrent("X");
   }
 
   let status = `Ходят ${current === "X" ? "крестики" : "нолики"}`;
@@ -107,6 +105,8 @@ export default function App() {
       >
         Новая игра
       </button>
+
+      {splashVisible && <SplashScreen onStart={() => setSplashVisible(false)} />}
     </main>
   );
 }
